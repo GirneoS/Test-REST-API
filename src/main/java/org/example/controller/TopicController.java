@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-public class CarController {
+public class TopicController {
     private TopicService topicService;
 
     @PostMapping()
