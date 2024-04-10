@@ -1,30 +1,31 @@
 package org.example.service;
 
 import lombok.AllArgsConstructor;
-import org.example.dto.Topic;
-import org.example.repository.CarRepository;
+import org.example.dto.TopicDTO;
+import org.example.repository.MassageRepository;
+import org.example.repository.TopicRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class CarService {
-    private CarRepository carRepository;
+public class TopicService {
+    private TopicRepository topicRepository;
+    private MassageRepository massageRepository;
 
-    public org.example.model.Topic createCar(Topic dto){
-        return carRepository.save(
+    public org.example.model.Topic createTopic(TopicDTO dto){
+        return topicRepository.save(
                 org.example.model.Topic.builder()
-                        .color(dto.getColor())
-                        .productionDate(dto.getProductionDate())
+                        .title(dto.getTitle())
                         .build());
     }
 
-    public List<org.example.model.Topic> findCars(){
-        return carRepository.findAll();
+    public List<org.example.model.Topic> findTopics(){
+        return topicRepository.findAll();
     }
 
-    public void deleteCar(Long id){
-        carRepository.deleteById(id);
+    public void deleteTopic(Long id){
+        topicRepository.deleteById(id);
     }
 }

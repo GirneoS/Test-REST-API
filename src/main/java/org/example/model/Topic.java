@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.service.MassageService;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -15,15 +14,14 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Car {
+public class Topic {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private LocalDate productionDate;
-    private String color;
+    private String title;
 
-    @OneToMany
-    private Set<Massage> massage;
+//    @OneToMany
+//    private Set<Massage> massage;
 
 }
