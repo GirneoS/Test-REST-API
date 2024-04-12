@@ -2,6 +2,7 @@ package org.example.service;
 
 import lombok.AllArgsConstructor;
 import org.example.dto.TopicDTO;
+import org.example.model.Topic;
 import org.example.repository.MassageRepository;
 import org.example.repository.TopicRepository;
 import org.springframework.stereotype.Service;
@@ -27,5 +28,8 @@ public class TopicService {
 
     public void deleteTopic(Long id){
         topicRepository.deleteById(id);
+    }
+    public Topic findTopicById(Long id){
+        return topicRepository.getReferenceById(id);
     }
 }
