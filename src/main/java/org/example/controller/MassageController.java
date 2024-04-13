@@ -16,28 +16,24 @@ import java.util.List;
 public class MassageController {
     private MassageService massageService;
 
-    @GetMapping("/{id}/massage")
+    @GetMapping("/{id}/massages")
     public ResponseEntity<List<Massage>> getMessagesInTopic(@PathVariable Long id) {
         List<Massage> messages = massageService.getMessagesInTopic(id);
         return ResponseEntity.ok(messages);
     }
-    @GetMapping("/{id}/massage/all")
-    public ResponseEntity<List<Massage>> findAllMassages(){
-        return new ResponseEntity<>(massageService.findAllMassages(),HttpStatus.OK);
-    }
 
-    @PostMapping("/{id}/massage")
+    @PostMapping("/{id}/massages")
     public ResponseEntity<Massage> createMassage(@RequestBody MassageDTO dto, @PathVariable Long id){
         return new ResponseEntity<>(massageService.createMassage(dto, id), HttpStatus.OK);
     }
 
-    @PutMapping("/{id}/massage")
-    public  ResponseEntity<Massage> updateMassage(@RequestBody Massage massage){
-        return new ResponseEntity<>(massageService.updateMassage(massage),HttpStatus.OK);
+    @PutMapping("/{id}/massages/{massageId}")
+    public  ResponseEntity<Massage> updateMassage(@RequestBody String text, @PathVariable Long massageId){
+        return new ResponseEntity<>(massageService.updateMassage(text, massageId),HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}/massage{id}")
-    public HttpStatus deleteMassage(@PathVariable Long id){
-        return massageService.deleteMassage(id);
+    @DeleteMapping("/{topicId}/massages/{massageId}")
+    public HttpStatus deleteMassage(@PathVariable Long massageId){
+        return massageService.deleteMassage(massageId);
     }
 }

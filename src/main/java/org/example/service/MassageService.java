@@ -17,14 +17,6 @@ public class MassageService {
     private MassageRepository massageRepository;
     private TopicRepository topicRepository;
 
-//    public Massage creaTeMassage(MassageDTO dto){
-//        return massageRepository.save(Massage.builder()
-//                .author(dto.getAuthor())
-//                .textMassage(dto.getTextMassage())
-//                .date(dto.getDate())
-//                .topic(dto.getTopic())
-//                .build());
-//    }
     public Massage createMassage(MassageDTO dto, Long topicId){
         Topic topic = topicRepository.findById(topicId)
                 .orElseThrow(() -> new RuntimeException("Topic not found with id: " + topicId));
@@ -36,19 +28,19 @@ public class MassageService {
                 .topic(topic)
                 .build());
     }
-    public List<Massage> findAllMassages(){return massageRepository.findAll();}
-
 
     public List<Massage> getMessagesInTopic(Long topicId) {
         return massageRepository.findByTopicId(topicId);
     }
 
-    public Massage updateMassage(Massage massage){
-        return massageRepository.save(massage);
+    public Massage updateMassage(String text, Long id){
+        Massage updatedMassage = massageRepository.findById(id).orElseThrow(()->new RuntimeException("Не удалось найти сообщение с указанным id!"));
+        updatedMassage.setTextMassage(text);
+        return massageRepository.save(updatedMassage);
     }
 
-    public HttpStatus deleteMassage(Long id){
-        massageRepository.deleteById(id);
+    public HttpStatus deleteMassage(Long massageId){
+        massageRepository.deleteById(massageId);
         return HttpStatus.OK;
     }
 }
