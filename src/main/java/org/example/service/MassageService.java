@@ -6,6 +6,9 @@ import org.example.model.Massage;
 import org.example.model.Topic;
 import org.example.repository.MassageRepository;
 import org.example.repository.TopicRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -29,8 +32,8 @@ public class MassageService {
                 .build());
     }
 
-    public List<Massage> getMessagesInTopic(Long topicId) {
-        return massageRepository.findByTopicId(topicId);
+    public Page<Massage> getMessagesInTopic(Long topicId, Pageable pageable) {
+        return massageRepository.findByTopicId(topicId, pageable);
     }
 
     public Massage updateMassage(String text, Long id){
