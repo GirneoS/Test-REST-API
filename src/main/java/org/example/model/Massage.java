@@ -16,10 +16,7 @@ import java.util.Optional;
 @AllArgsConstructor
 @Data
 @Builder
-//@JsonSerialize
-//@JsonDeserialize
 public class Massage {
-//    private static long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -29,6 +26,5 @@ public class Massage {
     private LocalDate date;
 
     @ManyToOne
-    @NonNull
     private Topic topic;
 }

@@ -10,23 +10,36 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class MassageService {
     private MassageRepository massageRepository;
+    private TopicRepository topicRepository;
 
-    public Massage createMassage(MassageDTO dto){
+//    public Massage creaTeMassage(MassageDTO dto){
+//        return massageRepository.save(Massage.builder()
+//                .author(dto.getAuthor())
+//                .textMassage(dto.getTextMassage())
+//                .date(dto.getDate())
+//                .topic(dto.getTopic())
+//                .build());
+//    }
+    public Massage createMassage(MassageDTO dto, Long topicId){
+        Topic topic = topicRepository.findById(topicId)
+                .orElseThrow(() -> new RuntimeException("Topic not found with id: " + topicId));
+
         return massageRepository.save(Massage.builder()
                 .author(dto.getAuthor())
                 .textMassage(dto.getTextMassage())
                 .date(dto.getDate())
-                .topic(dto.getTopic())
+                .topic(topic)
                 .build());
     }
+    public List<Massage> findAllMassages(){return massageRepository.findAll();}
 
-    public List<Massage> findMassages(Long topicId){
+
+    public List<Massage> getMessagesInTopic(Long topicId) {
         return massageRepository.findByTopicId(topicId);
     }
 
