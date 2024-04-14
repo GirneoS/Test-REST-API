@@ -7,12 +7,9 @@ import org.example.model.Topic;
 import org.example.repository.MassageRepository;
 import org.example.repository.TopicRepository;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -45,5 +42,9 @@ public class MassageService {
     public HttpStatus deleteMassage(Long massageId){
         massageRepository.deleteById(massageId);
         return HttpStatus.OK;
+    }
+
+    public Massage findById(Long id){
+        return massageRepository.findById(id).orElseThrow(()->new RuntimeException("Не удалось найти сообщение с указанным id"));
     }
 }
