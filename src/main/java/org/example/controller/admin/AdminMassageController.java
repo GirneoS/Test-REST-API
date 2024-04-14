@@ -1,4 +1,4 @@
-package org.example.controller;
+package org.example.controller.admin;
 
 import org.example.model.Massage;
 import org.example.service.MassageService;

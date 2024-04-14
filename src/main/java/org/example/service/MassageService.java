@@ -9,6 +9,8 @@ import org.example.repository.TopicRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,11 +20,12 @@ public class MassageService {
     private TopicRepository topicRepository;
 
     public Massage createMassage(MassageDTO dto, Long topicId){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Topic topic = topicRepository.findById(topicId)
                 .orElseThrow(() -> new RuntimeException("Topic not found with id: " + topicId));
 
         return massageRepository.save(Massage.builder()
-                .author(dto.getAuthor())
+                .author(authentication.getName())
                 .textMassage(dto.getTextMassage())
                 .date(dto.getDate())
                 .topic(topic)

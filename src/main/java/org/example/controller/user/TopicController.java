@@ -1,4 +1,4 @@
-package org.example.controller;
+package org.example.controller.user;
 
 import lombok.AllArgsConstructor;
 import org.example.dto.TopicDTO;

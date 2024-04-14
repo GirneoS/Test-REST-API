@@ -16,17 +16,12 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-//@JsonSerialize
-//@JsonDeserialize
 public class Topic {
-//    private static long serialVersionUID = 2L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String title;
-
-//    @OneToMany
-//    private Set<Massage> massage;
 
 }

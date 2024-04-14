@@ -9,7 +9,6 @@ import java.time.LocalDate;
 public class TopicDTO {
     @NonNull
     String title;
-    @NonNull
     String authorFirstMassage;
     @NonNull
     String textFirstMassage;

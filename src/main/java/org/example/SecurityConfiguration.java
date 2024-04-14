@@ -5,17 +5,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
 
 import javax.sql.DataSource;
 
@@ -23,6 +22,15 @@ import javax.sql.DataSource;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
+    @Bean
+    protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+       return http
+               .authorizeHttpRequests(authorizeHttpRequests->authorizeHttpRequests.anyRequest().authenticated())
+               .httpBasic(Customizer.withDefaults())
+               .csrf(AbstractHttpConfigurer::disable)
+               .formLogin(AbstractHttpConfigurer::disable)
+               .build();
+    }
     @Bean
     public DataSource dataSource(){
         return new EmbeddedDatabaseBuilder()
@@ -44,7 +52,7 @@ public class SecurityConfiguration {
         UserDetails admin = User.withDefaultPasswordEncoder()
                 .username("admin")
                 .password("admin")
-                .roles("ADMIN")
+                .roles("USER,ADMIN")
                 .build();
         userDetailsManager.createUser(admin);
         return userDetailsManager;
@@ -57,4 +65,6 @@ public class SecurityConfiguration {
                 .roles("USER")
                 .build();
     }
+
+
 }

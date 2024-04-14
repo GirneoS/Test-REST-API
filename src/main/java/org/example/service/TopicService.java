@@ -6,6 +6,8 @@ import org.example.model.Massage;
 import org.example.model.Topic;
 import org.example.repository.MassageRepository;
 import org.example.repository.TopicRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,12 +19,14 @@ public class TopicService {
     private MassageRepository massageRepository;
 
     public org.example.model.Topic createTopic(TopicDTO dto){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
         Topic createdTopic =  topicRepository.save(
                 org.example.model.Topic.builder()
                         .title(dto.getTitle())
                         .build());
         massageRepository.save(Massage.builder()
-                        .author(dto.getAuthorFirstMassage())
+                        .author(authentication.getName())
                         .textMassage(dto.getTextFirstMassage())
                         .date(dto.getDateFirstMassage())
                         .topic(createdTopic)
