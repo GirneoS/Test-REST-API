@@ -38,10 +38,9 @@ public class TopicService {
     public void deleteTopic(Long topicId){
         topicRepository.deleteById(topicId);
     }
-    public Topic updateTopic(TopicDTO dto){
-        return topicRepository.save(Topic.builder()
-                .title(dto.getTitle())
-                .build());
+
+    public Topic updateTopic(Topic topic){
+        return topicRepository.save(topic);
     }
 
     public Page<Topic> findPageOfTopics(Pageable pageable){

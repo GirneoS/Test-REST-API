@@ -1,7 +1,6 @@
 package org.example.controller.admin;
 
 import lombok.AllArgsConstructor;
-import org.example.dto.TopicDTO;
 import org.example.model.Topic;
 import org.example.service.TopicService;
 import org.springframework.data.domain.Page;
@@ -20,9 +19,10 @@ public class AdminTopicController {
         topicService.deleteTopic(topicId);
         return HttpStatus.OK;
     }
+
     @PutMapping("/topic")
-    public Topic updateTopic(@RequestBody TopicDTO dto){
-        return topicService.updateTopic(dto);
+    public Topic updateTopic(@RequestBody Topic topic){
+        return topicService.updateTopic(topic);
     }
 
     @GetMapping("/topic")
