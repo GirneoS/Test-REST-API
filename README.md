@@ -27,9 +27,9 @@ ___
 
 **DELETE /topic/{topicId}** - удалить топик с указанным topicId
 ___
-**DELETE /topic/{id}/massages/{massageId}** - удалить сообщение с указанным massageId
+**DELETE /topic/{topicId}/massages/{massageId}** - удалить сообщение с указанным massageId
 
-**PUT /topic/{id}/massages** - редактировать сообщение
+**PUT /topic/{topicId}/massages** - редактировать сообщение
 
 **GET /topic/{topicId}/massages** - получить страницу сообщений, в указанном топике
 ___
