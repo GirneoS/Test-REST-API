@@ -29,7 +29,7 @@ ___
 ___
 **DELETE /topic/{topicId}/massages/{massageId}** - удалить сообщение с указанным massageId
 
-**PUT /topic/{topicId}/massages** - редактировать сообщение
+**PUT /topic/{topicId}/massages/{massageId}** - редактировать сообщение
 
 **GET /topic/{topicId}/massages** - получить страницу сообщений, в указанном топике
 ___
