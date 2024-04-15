@@ -12,6 +12,8 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
@@ -26,12 +28,9 @@ public class SecurityConfiguration {
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
        return http
                .csrf(AbstractHttpConfigurer::disable)
-               .authorizeHttpRequests(authorizeHttpRequests->
-                       authorizeHttpRequests
-                               .requestMatchers("/api/v1/**")
-                                .hasRole("USER")
-                               .requestMatchers("/admin/api/v1/**")
-                                .hasRole("ADMIN"))
+               .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
+                               .requestMatchers("/api/v1/**").hasRole("USER")
+                               .requestMatchers("/admin/api/v1/**").hasRole("ADMIN"))
                .httpBasic(Customizer.withDefaults())
                .formLogin(AbstractHttpConfigurer::disable)
                .build();
@@ -48,25 +47,28 @@ public class SecurityConfiguration {
     public UserDetailsManager users(DataSource dataSource) {
         JdbcUserDetailsManager userDetailsManager = new JdbcUserDetailsManager(dataSource);
 
-        userDetailsManager.createUser(createUserWithName("Тимур"));
-        userDetailsManager.createUser(createUserWithName("Петя"));
-        userDetailsManager.createUser(createUserWithName("Ваня"));
-        userDetailsManager.createUser(createUserWithName("Асим"));
-        userDetailsManager.createUser(createUserWithName("Влад"));
+        PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
-        UserDetails admin = User.withDefaultPasswordEncoder()
+
+        userDetailsManager.createUser(createUserWithName("Тимур",passwordEncoder));
+        userDetailsManager.createUser(createUserWithName("Петя",passwordEncoder));
+        userDetailsManager.createUser(createUserWithName("Ваня",passwordEncoder));
+        userDetailsManager.createUser(createUserWithName("Асим",passwordEncoder));
+        userDetailsManager.createUser(createUserWithName("Влад",passwordEncoder));
+
+        UserDetails admin = User.builder()
                 .username("admin")
-                .password("admin")
+                .password(passwordEncoder.encode("admin"))
                 .roles("USER","ADMIN")
                 .build();
         userDetailsManager.createUser(admin);
         return userDetailsManager;
     }
 
-    private UserDetails createUserWithName(String name){
-        return User.withDefaultPasswordEncoder()
+    private UserDetails createUserWithName(String name, PasswordEncoder passwordEncoder){
+        return User.builder()
                 .username(name)
-                .password("password")
+                .password(passwordEncoder.encode("password"))
                 .roles("USER")
                 .build();
     }
