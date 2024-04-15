@@ -1,21 +1,17 @@
 package org.example.model;
 
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.*;
 import lombok.*;
 
-import javax.annotation.processing.Generated;
-import java.security.PrivateKey;
 import java.time.LocalDate;
-import java.util.Optional;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
+@Table(name = "massage")
 public class Massage {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

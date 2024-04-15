@@ -6,6 +6,8 @@ import org.example.model.Massage;
 import org.example.model.Topic;
 import org.example.repository.MassageRepository;
 import org.example.repository.TopicRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -33,11 +35,16 @@ public class TopicService {
                 .build());
         return createdTopic;
     }
-
-    public List<org.example.model.Topic> findTopics(){
-        return topicRepository.findAll();
+    public void deleteTopic(Long topicId){
+        topicRepository.deleteById(topicId);
     }
-    public Topic findTopicById(Long id){
-        return topicRepository.getReferenceById(id);
+    public Topic updateTopic(TopicDTO dto){
+        return topicRepository.save(Topic.builder()
+                .title(dto.getTitle())
+                .build());
+    }
+
+    public Page<Topic> findPageOfTopics(Pageable pageable){
+        return topicRepository.findAll(pageable);
     }
 }

@@ -36,13 +36,15 @@ public class MassageService {
         return massageRepository.findByTopicId(topicId, pageable);
     }
 
-    public Massage updateMassage(String text, Long id){
+    public HttpStatus updateMassage(MassageDTO dto, Long id){
         Massage updatedMassage = massageRepository.findById(id).orElseThrow(()->new RuntimeException("Не удалось найти сообщение с указанным id!"));
-        updatedMassage.setTextMassage(text);
-        return massageRepository.save(updatedMassage);
-    }
+        updatedMassage.setTextMassage(dto.getTextMassage());
+        massageRepository.save(updatedMassage);
+        return HttpStatus.OK;
 
+    }
     public HttpStatus deleteMassage(Long massageId){
+
         massageRepository.deleteById(massageId);
         return HttpStatus.OK;
     }

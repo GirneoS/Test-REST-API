@@ -31,16 +31,16 @@ public class MassageController {
     }
 
     @PutMapping("/{topicId}/massages/{massageId}")
-    public ResponseEntity<?> updateMassage(@RequestBody String text, @PathVariable Long massageId){
+    public ResponseEntity<?> updateMassage(@RequestBody MassageDTO dto, @PathVariable Long massageId){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUser = authentication.getName();
 
         Massage massage = massageService.findById(massageId);
         if(currentUser.equals(massage.getAuthor())){
-            massageService.updateMassage(text, massageId);
+            massageService.updateMassage(dto, massageId);
             return ResponseEntity.ok().build();
         }else{
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Вы не можете редактировать сообщение другого пользователя!");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Вы не можете удалять сообщения других пользователей!");
         }
     }
 
@@ -54,7 +54,7 @@ public class MassageController {
             massageService.deleteMassage(massageId);
             return ResponseEntity.ok().build();
         }else{
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Вы не можете редактировать сообщение другого пользователя!");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Вы не можете редактировать сообщения других пользователей!");
         }
     }
 }

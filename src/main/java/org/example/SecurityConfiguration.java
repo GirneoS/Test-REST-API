@@ -25,9 +25,14 @@ public class SecurityConfiguration {
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
        return http
-               .authorizeHttpRequests(authorizeHttpRequests->authorizeHttpRequests.anyRequest().authenticated())
-               .httpBasic(Customizer.withDefaults())
                .csrf(AbstractHttpConfigurer::disable)
+               .authorizeHttpRequests(authorizeHttpRequests->
+                       authorizeHttpRequests
+                               .requestMatchers("/api/v1/**")
+                                .hasRole("USER")
+                               .requestMatchers("/admin/api/v1/**")
+                                .hasRole("ADMIN"))
+               .httpBasic(Customizer.withDefaults())
                .formLogin(AbstractHttpConfigurer::disable)
                .build();
     }
@@ -52,7 +57,7 @@ public class SecurityConfiguration {
         UserDetails admin = User.withDefaultPasswordEncoder()
                 .username("admin")
                 .password("admin")
-                .roles("USER,ADMIN")
+                .roles("USER","ADMIN")
                 .build();
         userDetailsManager.createUser(admin);
         return userDetailsManager;
